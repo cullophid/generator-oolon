@@ -8,6 +8,18 @@ var OolonGenerator = yeoman.generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json');
   },
+  promptTask: function () {
+    var done = this.async();
+    this.prompt({
+      type    : 'input',
+      name    : 'appName',
+      message : 'Your project name',
+      default : this.appname // Default to current folder name
+    }, function (custom) {
+      this.custom = custom;
+      done();
+    }.bind(this));
+  },
   writing: {
     app: function () {
       this.directory('config', 'config');
@@ -16,16 +28,15 @@ var OolonGenerator = yeoman.generators.Base.extend({
       this.directory('test', 'test');
       this.directory('services', 'services');
       this.src.copy('main.js', 'main.js');
-
     },
 
     projectfiles: function () {
-      this.src.copy('_package.json', 'package.json');
+      this.template('_package.json', 'package.json', this.custom);
       this.src.copy('editorconfig', '.editorconfig');
       this.src.copy('jshintrc', '.jshintrc');
       this.src.copy('gitignore', '.gitignore');
-      this.src.copy('gulpfile.js', 'gulpfile.js');
-      this.src.copy('server.js', 'server.js');
+      this.template('gulpfile.js', 'gulpfile.js');
+      this.template('server.js', 'server.js', this.custom);
 
     }
   },

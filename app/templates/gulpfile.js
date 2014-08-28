@@ -1,6 +1,5 @@
 'use strict';
 var gulp = require('gulp'),
-  server = require('./server'),
   mocha = require('gulp-spawn-mocha'),
   jshint = require('gulp-jshint'),
   instance,
@@ -9,7 +8,7 @@ var gulp = require('gulp'),
 gulp.task('default', ['start']);
 
 gulp.task('start', function (done) {
-  instance = server.listen(config.port, done);
+  instance = require('./server').listen(config.port, done);
 });
 
 gulp.task('stop', function (done) {

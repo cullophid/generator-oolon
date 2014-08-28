@@ -15,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // middleware
+app.use(middleware.auth)
+;
 // load api routes
 app.use(routeloader());
 // error handling
